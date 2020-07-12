@@ -55,11 +55,20 @@
           :type="btnType"
           @click="startRoll"
         >{{ startBtnText }} ({{ images.length }})</el-button>
-        <el-button
-          :disabled="rolling"
-          type="text"
-          @click="selectImagefolder"
-        >{{ $t('luckyYou.button.selectImageFolder') }}</el-button>
+        <el-upload
+          action="https://jsonplaceholder.typicode.com/posts/"
+          multiple
+          :http-request="readImageFile"
+          :on-success="readImageFileDone"
+          :show-file-list="false"
+          :file-list="fileList"
+        >
+          <el-button
+            :disabled="rolling"
+            type="text"
+          >{{ $t('luckyYou.button.selectImageFolder') }}</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
       </el-col>
       <el-col :span="4">
         <div class="item"></div>
@@ -72,14 +81,11 @@
 </template>
 
 <script>
-const readBinaryFile = () => {}
-const readDir = () => {}
-const open = () => {}
 import { Howl } from "howler";
 import DonateDialog from "./components/DonateDialog";
 import FooterComponent from "./components/FooterComponent";
 import SettingsDialog from "./components/SettingsDialog";
-import { Notification } from 'element-ui'
+import { Notification } from "element-ui";
 
 export default {
   name: "App",
@@ -90,6 +96,7 @@ export default {
   },
   data() {
     return {
+      fileList: [],
       selectedImageFileName: this.$t("luckyYou.text.defaultTips"),
       imageUrl: "/casino.png",
       folderPath: null,
@@ -219,7 +226,7 @@ export default {
     },
     showLastImageNotification() {
       // close all current notifications
-      Notification.closeAll()
+      Notification.closeAll();
       const image = this.images[0];
       const h = this.$createElement;
       this.$notify({
@@ -291,13 +298,13 @@ export default {
       if (this.rolling) {
         this.doStop();
       } else {
-        console.log(this.rolling)
+        console.log(this.rolling);
         this.doStart();
-        console.log(this.rolling)
+        console.log(this.rolling);
       }
-      console.log(this.rolling)
+      console.log(this.rolling);
       this.rolling = !this.rolling;
-      console.log(this.rolling)
+      console.log(this.rolling);
     },
     arrayBufferToBase64(buffer, callback) {
       var blob = new Blob([buffer], {
@@ -310,89 +317,81 @@ export default {
       };
       reader.readAsDataURL(blob);
     },
-    convertFile2Images(files) {
+    async convertFile2Image(file) {
       // [{path, is_dir, name}]
-      if (!files) {
-        return [];
-      }
 
-      const imgs = files.filter(f => {
-        let fname = f.name.toLowerCase();
-        if (
-          fname.endsWith(".jpg") ||
-          fname.endsWith(".jpeg") ||
-          fname.endsWith(".png")
-        ) {
-          return true;
-        } else {
-          return false;
-        }
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          resolve(e.target.result);
+        };
+        reader.readAsDataURL(file);
+        reader.onerror = err => {
+          reject(err);
+        };
       });
-
-      if (imgs === null || imgs.length <= 1) {
-        this.startBtnText = this.$t("luckyYou.button.start");
-        this.$message({
-          type: "error",
-          message: this.$t("luckyYou.message.noImage")
-        });
-        return [];
-      }
-
-      this.images = [];
-      imgs.forEach(f => {
-        readBinaryFile(f.path)
-          .then(res => {
-            this.arrayBufferToBase64(new Uint8Array(res), b64 => {
-              this.images = this.images.concat({
-                path: f.path,
-                uri: "data:image/png;base64," + b64,
-                name: this.shortenImageName(f.name)
-              });
-              if (this.images.length === imgs.length) {
-                // reload config items
-                this.loadConfig()
-                this.btnType = "success";
-                this.startBtnText = this.$t("luckyYou.button.start");
-                this.readyForRoll = true;
-                this.imageUrl = "/casino.png";
-                this.$message({
-                  duration: 1000,
-                  type: "success",
-                  message: this.$t("luckyYou.message.readDone").format(
-                    this.images.length
-                  )
-                });
-              }
-            });
-          })
-          .catch(err => {
-            console.error(err);
-            this.$message({
-              type: "error",
-              message: this.$t("luckyYou.message.commonError")
-            });
-          });
+      // imgs.forEach(f => {
+      //   readBinaryFile(f.path)
+      //     .then(res => {
+      //       this.arrayBufferToBase64(new Uint8Array(res), b64 => {
+      //         this.images = this.images.concat({
+      //           path: f.path,
+      //           uri: "data:image/png;base64," + b64,
+      //           name: this.shortenImageName(f.name)
+      //         });
+      //         if (this.images.length === imgs.length) {
+      //           // reload config items
+      //           this.loadConfig();
+      //           this.btnType = "success";
+      //           this.startBtnText = this.$t("luckyYou.button.start");
+      //           this.readyForRoll = true;
+      //           this.imageUrl = "/casino.png";
+      //           this.$message({
+      //             duration: 1000,
+      //             type: "success",
+      //             message: this.$t("luckyYou.message.readDone").format(
+      //               this.images.length
+      //             )
+      //           });
+      //         }
+      //       });
+      //     })
+      //     .catch(err => {
+      //       console.error(err);
+      //       this.$message({
+      //         type: "error",
+      //         message: this.$t("luckyYou.message.commonError")
+      //       });
+      //     });
+      // });
+    },
+    readImageFileDone() {
+      // reload config items
+      this.loadConfig();
+      this.btnType = "success";
+      this.startBtnText = this.$t("luckyYou.button.start");
+      this.readyForRoll = true;
+      this.imageUrl = "/casino.png";
+      this.$message({
+        duration: 1000,
+        type: "success",
+        message: this.$t("luckyYou.message.readDone").format(this.images.length)
       });
     },
-    async selectImagefolder() {
-      const dir = await open({
-        directory: true
-      });
-      const files = await readDir(dir);
-      if (!files) {
-        this.$message({
-          type: "error",
-          message: this.$t("luckyYou.message.noImage")
-        });
-        return;
-      }
+    async readImageFile(arg) {
+      const file = arg.file;
       this.reset();
 
       this.imageUrl = "/casino.png";
       this.btnType = "";
       this.readyForRoll = false;
       this.startBtnText = this.$t("luckyYou.button.readingImage");
-      this.convertFile2Images(files);
+      const b64 = await this.convertFile2Image(file);
+      this.images.push({
+        path: file.name,
+        uri: b64,
+        name: this.shortenImageName(file.name)
+      });
     },
     reset() {
       this.imageUrl = "/casino.png";
