@@ -63,10 +63,7 @@
           :show-file-list="false"
           :file-list="fileList"
         >
-          <el-button
-            :disabled="rolling"
-            type="text"
-          >{{ $t('luckyYou.button.selectImageFolder') }}</el-button>
+          <el-button :disabled="rolling" type="text">{{ $t('luckyYou.button.selectImageFolder') }}</el-button>
           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
       </el-col>
@@ -330,53 +327,35 @@ export default {
           reject(err);
         };
       });
-      // imgs.forEach(f => {
-      //   readBinaryFile(f.path)
-      //     .then(res => {
-      //       this.arrayBufferToBase64(new Uint8Array(res), b64 => {
-      //         this.images = this.images.concat({
-      //           path: f.path,
-      //           uri: "data:image/png;base64," + b64,
-      //           name: this.shortenImageName(f.name)
-      //         });
-      //         if (this.images.length === imgs.length) {
-      //           // reload config items
-      //           this.loadConfig();
-      //           this.btnType = "success";
-      //           this.startBtnText = this.$t("luckyYou.button.start");
-      //           this.readyForRoll = true;
-      //           this.imageUrl = "/casino.png";
-      //           this.$message({
-      //             duration: 1000,
-      //             type: "success",
-      //             message: this.$t("luckyYou.message.readDone").format(
-      //               this.images.length
-      //             )
-      //           });
-      //         }
-      //       });
-      //     })
-      //     .catch(err => {
-      //       console.error(err);
-      //       this.$message({
-      //         type: "error",
-      //         message: this.$t("luckyYou.message.commonError")
-      //       });
-      //     });
-      // });
     },
-    readImageFileDone() {
-      // reload config items
-      this.loadConfig();
-      this.btnType = "success";
-      this.startBtnText = this.$t("luckyYou.button.start");
-      this.readyForRoll = true;
-      this.imageUrl = "/casino.png";
-      this.$message({
-        duration: 1000,
-        type: "success",
-        message: this.$t("luckyYou.message.readDone").format(this.images.length)
-      });
+    readImageFileDone(resp, file, fileList) {
+      // if file list has only 1 image, report error
+      if (fileList && fileList.length <= 1) {
+        this.images = []
+        this.startBtnText = this.$t('luckyYou.button.start')
+        this.$message({
+          duration: 2000,
+          type: "error",
+          message: this.$t("luckyYou.message.mustGreaterThanOneImage")
+        });
+        return;
+      }
+      // current file is the last file in file list, then all the files uploaded done
+      if (file.name === fileList[fileList.length - 1].name) {
+        // reload config items
+        this.loadConfig();
+        this.btnType = "success";
+        this.startBtnText = this.$t("luckyYou.button.start");
+        this.readyForRoll = true;
+        this.imageUrl = "/casino.png";
+        this.$message({
+          duration: 1000,
+          type: "success",
+          message: this.$t("luckyYou.message.readDone").format(
+            this.images.length
+          )
+        });
+      }
     },
     async readImageFile(arg) {
       const file = arg.file;

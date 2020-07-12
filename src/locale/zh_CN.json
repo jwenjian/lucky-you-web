@@ -41,7 +41,8 @@
       "donatedTipsMessage": "我想你应该不是点错了按钮了。请将你捐赠的截图发到我的邮箱：wenjian.jiang@foxmail.com 以便我记录和感谢！",
       "settingsSavedTitle": "设置已保存！",
       "settingsSavedMessage": "所有的设置项都已保存，请重新选择图片文件夹来使其生效。",
-      "lastImageTitle": "最后一张图！"
+      "lastImageTitle": "最后一张图！",
+      "mustGreaterThanOneImage": "请最少选择两张图片。"
     }
   }
 }

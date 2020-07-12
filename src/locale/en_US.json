@@ -41,7 +41,8 @@
       "donatedTipsMessage": "I'm sure this is not a miss-click. Please send your donation screenshots to my email: wenjian.jiang@foxmail.com to let me know you and thank you！",
       "settingsSavedTitle": "Settings saved!",
       "settingsSavedMessage": "All settings are saved, please select your image folder again to make new settings work.",
-      "lastImageTitle": "Last Image!"
+      "lastImageTitle": "Last Image!",
+      "mustGreaterThanOneImage": "Please select 2 image files at least."
     }
   }
 }
