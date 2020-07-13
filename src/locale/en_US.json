@@ -5,7 +5,7 @@
   "luckyYou": {
     "name": "Lucky You",
     "button": {
-      "selectImageFolder": "Select image folder",
+      "selectImageFolder": "Select images",
       "start": "Start",
       "stop": "Stop",
       "readingImage": "Reading image...",
@@ -29,7 +29,8 @@
       "no": "No",
       "commonSettings": {
         "multiTimesChosenLabel": "If multi-times chosen on same image allowed?"
-      }
+      },
+      "imageSelectionTip": ".jpg,.jpeg,.png,.gif is supported. Image file should not be too big."
     },
     "message": {
       "noImage": "Image file not found",

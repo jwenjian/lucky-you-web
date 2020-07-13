@@ -62,9 +62,10 @@
           :on-success="readImageFileDone"
           :show-file-list="false"
           :file-list="fileList"
+          accept=".jpg,.jpeg,.png,.gif"
         >
           <el-button :disabled="rolling" type="text">{{ $t('luckyYou.button.selectImageFolder') }}</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          <div slot="tip" class="el-upload__tip">{{ $t('luckyYou.text.imageSelectionTip') }}</div>
         </el-upload>
       </el-col>
       <el-col :span="4">
