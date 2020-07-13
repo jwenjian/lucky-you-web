@@ -296,13 +296,9 @@ export default {
       if (this.rolling) {
         this.doStop();
       } else {
-        console.log(this.rolling);
         this.doStart();
-        console.log(this.rolling);
       }
-      console.log(this.rolling);
       this.rolling = !this.rolling;
-      console.log(this.rolling);
     },
     arrayBufferToBase64(buffer, callback) {
       var blob = new Blob([buffer], {
@@ -406,7 +402,6 @@ export default {
   },
   mounted() {
     this.loadConfig();
-    console.log(this.config.common.isMultiTimesChosenAllowed);
     this.sound.rolling = new Howl({
       src: ["rolling.mp3"],
       loop: true
