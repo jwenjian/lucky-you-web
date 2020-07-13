@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueI18n from 'vue-i18n'
 import './util'
 import './registerServiceWorker'
+import '@fortawesome/fontawesome-free/js/all'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
