@@ -15,13 +15,6 @@ module.exports = {
       appleTouchIcon: '/icons/apple-touch-icon-152x152.png',
       maskIcon: '/icons/safari-pinned-tab.svg',
       msTileImage: '/icons/msapplication-icon-144x144.png'
-    },
-    // configure the workbox plugin
-    workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
-      // swSrc is required in InjectManifest mode.
-      swSrc: 'dev/sw.js',
-      // ...other Workbox options...
     }
   }
 }
