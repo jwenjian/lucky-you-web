@@ -1,13 +1,23 @@
 <template>
   <el-row class="footer-row">
     <el-col :span="12">
+      <a
+        href="https://www.producthunt.com/posts/lucky-you?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-lucky-you"
+        target="_blank"
+      >
+        <img
+          src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=219757&theme=light"
+          alt="Lucky You - A free, simple, beautiful PWA app to do a lucky draw. | Product Hunt Embed"
+          style="width: 250px; height: 54px;"
+          width="250px"
+          height="54px"
+        />
+      </a>
       <p>
         Made with ❤️ by
         <a href="https://github.com/jwenjian" target="_blank">jwenjian</a>
       </p>
-      <span class="copyright">
-        Version: v{{ version }}
-      </span>
+      <span class="copyright">Version: v{{ version }}</span>
       <span class="copyright">
         Icons made by
         <i>Freepik</i> from
@@ -23,17 +33,17 @@
 </template>
 
 <script>
-const VERSION = require('../../package.json').version
+const VERSION = require("../../package.json").version;
 
 export default {
-  name: 'footer-component',
+  name: "footer-component",
   data() {
     return {
       version: VERSION
-    }
+    };
   },
   mounted() {
-    console.log(VERSION)
+    console.log(VERSION);
   }
 };
 </script>
@@ -43,7 +53,7 @@ export default {
   font-size: smaller;
   text-align: left;
   padding-left: 1em;
-  margin-top: 10em;
+  margin-top: 6em;
 }
 .copyright {
   display: block;
