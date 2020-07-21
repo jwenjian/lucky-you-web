@@ -14,7 +14,7 @@
           <img src="/wechat.png" />
         </el-tab-pane>
         <el-tab-pane :label="$t('luckyYou.text.paypal')" name="paypal">
-          <a href="http://paypal.me/jwenjian/1" target="_blank">{{$t('luckyYou.text.paypal')}}</a>
+          <a id="paypal-link" href="http://paypal.me/jwenjian/1" target="_blank">{{$t('luckyYou.text.paypal')}}</a>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -60,6 +60,9 @@ export default {
 </script>
 
 <style>
+.paypal-link {
+  color: var(--color)
+}
 .el-dialog {
   margin-top: 5vh;
 }

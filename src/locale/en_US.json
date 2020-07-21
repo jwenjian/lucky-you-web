@@ -14,7 +14,11 @@
       "donated": "I donated!",
       "confirm": "Confirm",
       "settings": "Settings",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "mode": {
+        "light": "Light",
+        "dark": "Dark"
+      }
     },
     "text": {
       "muted": "Muted",

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="appStyle">
     <el-row justify="space-between" class="toolbar-row">
       <el-col :span="6" :offset="18" class="toolbar-section">
         <div class="toolbar-btn-wrapper">
@@ -34,6 +34,20 @@
           </el-button>
           <span class="toolbar-btn-status">{{ $t("luckyYou.button.donate") }}</span>
         </div>
+
+        <div class="toolbar-btn-wrapper">
+          <DarkMode @change-mode="onModeChange" :defaultMode="'dark'" :modes="['light','dark']">
+            <template v-slot="{ mode }">
+              <el-button class="toolbar-btn" circle v-show="mode === 'light'">
+                <i class="fas fa-sun" />
+              </el-button>
+              <el-button class="toolbar-btn" circle v-show="mode === 'dark'">
+                <i class="fas fa-moon" />
+              </el-button>
+            </template>
+          </DarkMode>
+          <span class="toolbar-btn-status">{{ modeText }}</span>
+        </div>
       </el-col>
     </el-row>
     <el-row justify="space-between" class="img-row">
@@ -62,7 +76,7 @@
           :on-success="readImageFileDone"
           :show-file-list="false"
           :file-list="fileList"
-          accept=".jpg,.jpeg,.png,.gif"
+          accept=".jpg, .jpeg, .png, .gif"
         >
           <el-button :disabled="rolling" type="text">{{ $t('luckyYou.button.selectImageFolder') }}</el-button>
           <div slot="tip" class="el-upload__tip">{{ $t('luckyYou.text.imageSelectionTip') }}</div>
@@ -94,6 +108,10 @@ export default {
   },
   data() {
     return {
+      appStyle: {
+        backgroundImage: "url('/bg.png')"
+      },
+      mode: "light",
       fileList: [],
       selectedImageFileName: this.$t("luckyYou.text.defaultTips"),
       imageUrl: "/casino.png",
@@ -124,6 +142,9 @@ export default {
     };
   },
   computed: {
+    modeText() {
+      return this.$t(`luckyYou.button.mode.${this.mode}`);
+    },
     soundBtnIcon() {
       return this.isPlaySound ? "fas fa-volume-up" : "fas fa-volume-mute";
     },
@@ -134,6 +155,14 @@ export default {
     }
   },
   methods: {
+    onModeChange(newMode) {
+      this.mode = newMode;
+      if (newMode === "dark") {
+        this.appStyle.backgroundImage = null;
+      } else {
+        this.appStyle.backgroundImage = "url('/bg.png')";
+      }
+    },
     showSettingsDialog() {
       this.$refs["settingsDialog"] && this.$refs["settingsDialog"].showDialog();
     },
@@ -328,8 +357,8 @@ export default {
     readImageFileDone(resp, file, fileList) {
       // if file list has only 1 image, report error
       if (fileList && fileList.length <= 1) {
-        this.images = []
-        this.startBtnText = this.$t('luckyYou.button.start')
+        this.images = [];
+        this.startBtnText = this.$t("luckyYou.button.start");
         this.$message({
           duration: 2000,
           type: "error",
@@ -398,7 +427,7 @@ export default {
       if (localStorage && localStorage.getItem("luckyYou.config")) {
         this.config = JSON.parse(localStorage.getItem("luckyYou.config"));
       } else {
-        localStorage.setItem("luckyYou.config", JSON.stringify(this.config))
+        localStorage.setItem("luckyYou.config", JSON.stringify(this.config));
       }
     }
   },
@@ -416,20 +445,65 @@ export default {
 </script>
 
 <style>
+:root {
+  --bg: #fff;
+  --color: black;
+  --bg-bright: 100%;
+  --bg-btn: #fff;
+  --color-btn: black;
+  --img-bright: 100%;
+  --bg-dialog: #fff;
+}
+html.dark-mode {
+  --bg: #121212;
+  --color: #b9b9b9;
+  --bg-bright: 20%;
+  --bg-btn: #121212;
+  --color-btn: #eee;
+  --img-bright: 80%;
+  --color-icon: currentColor;
+  --bg-dialog: #333333;
+}
+html.light-mode {
+  --bg: #fff;
+  --color: black;
+  --bg-bright: 100%;
+  --bg-btn: #fff;
+  --color-btn: black;
+  --img-bright: 100%;
+  --color-icon: currentColor;
+  --bg-dialog: #fff;
+}
+button {
+  color: var(--color-btn);
+  background: var(--bg-btn);
+}
+img {
+  filter: brightness(var(--img-bright));
+}
+#file-name-item {
+  color: var(--color);
+}
+.el-dialog {
+  background: var(--bg);
+}
+.vue-dark-mode {
+  padding: 0px 0px;
+  font-size: 14px;
+}
 html body {
   margin: 0;
   padding: 0;
   height: auto;
-  background-color: white;
-  background-size: cover;
-  background-image: url("/bg.png");
+  background-color: var(--bg);
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: black;
+  color: var(--color);
+  background-size: cover;
 }
 #the-img {
   width: 300px;

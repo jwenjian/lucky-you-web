@@ -6,10 +6,12 @@ import VueI18n from 'vue-i18n'
 import './util'
 import './registerServiceWorker'
 import '@fortawesome/fontawesome-free/js/all'
+import VueDarkMode from '@vue-a11y/dark-mode'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueI18n)
+Vue.use(VueDarkMode)
 
 const messages = {
   "en": require('./locale/en_US.json'),
