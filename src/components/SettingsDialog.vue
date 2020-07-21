@@ -6,6 +6,7 @@
     :show-close="false"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
+    class="settings-dialog"
   >
     <div class="wrapper">
       <el-tabs v-model="tabName">
@@ -88,5 +89,13 @@ export default {
 .settings-item-wrapper .label {
   color: #909399;
   margin-bottom: 1ch;
+}
+div[role='dialog'] {
+  color: var(--color);
+  background: var(--bg);
+}
+button.el-button {
+  color: var(--color-btn);
+  background: var(--bg-btn);
 }
 </style>
