@@ -14,7 +14,11 @@
       "donated": "我已捐赠",
       "confirm": "确定",
       "settings": "设置",
-      "cancel": "取消"
+      "cancel": "取消",
+      "mode": {
+        "light": "浅色",
+        "dark": "深色"
+      }
     },
     "text": {
       "muted": "声音:关",

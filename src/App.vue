@@ -35,9 +35,19 @@
           <span class="toolbar-btn-status">{{ $t("luckyYou.button.donate") }}</span>
         </div>
 
-        <DarkMode @change-mode="onModeChange" :defaultMode="'dark'" :modes="['light','dark']">
-          <template v-slot="{ mode }">Color mode: {{ mode }}</template>
-        </DarkMode>
+        <div class="toolbar-btn-wrapper">
+          <DarkMode @change-mode="onModeChange" :defaultMode="'dark'" :modes="['light','dark']">
+            <template v-slot="{ mode }">
+              <el-button class="toolbar-btn" circle v-show="mode === 'light'">
+                <i class="fas fa-sun" />
+              </el-button>
+              <el-button class="toolbar-btn" circle v-show="mode === 'dark'">
+                <i class="fas fa-moon" />
+              </el-button>
+            </template>
+          </DarkMode>
+          <span class="toolbar-btn-status">{{ modeText }}</span>
+        </div>
       </el-col>
     </el-row>
     <el-row justify="space-between" class="img-row">
@@ -101,7 +111,7 @@ export default {
       appStyle: {
         backgroundImage: "url('/bg.png')"
       },
-      mode: "",
+      mode: "light",
       fileList: [],
       selectedImageFileName: this.$t("luckyYou.text.defaultTips"),
       imageUrl: "/casino.png",
@@ -132,6 +142,9 @@ export default {
     };
   },
   computed: {
+    modeText() {
+      return this.$t(`luckyYou.button.mode.${this.mode}`);
+    },
     soundBtnIcon() {
       return this.isPlaySound ? "fas fa-volume-up" : "fas fa-volume-mute";
     },
@@ -141,18 +154,9 @@ export default {
         : this.$t("luckyYou.text.muted");
     }
   },
-  watch: {
-    mode(oldMode, newMode) {
-      if (newMode !== "dark") {
-        this.appStyle.backgroundImage = "url('/bg.png')";
-      } else {
-        this.appStyle.backgroundImage = "";
-      }
-      console.log(newMode);
-    }
-  },
   methods: {
     onModeChange(newMode) {
+      this.mode = newMode;
       if (newMode === "dark") {
         this.appStyle.backgroundImage = null;
       } else {
@@ -457,7 +461,7 @@ html.dark-mode {
   --bg-btn: #121212;
   --color-btn: #eee;
   --img-bright: 80%;
-  --color-icon: red;
+  --color-icon: currentColor;
   --bg-dialog: #333333;
 }
 html.light-mode {
@@ -482,6 +486,10 @@ img {
 }
 .el-dialog {
   background: var(--bg);
+}
+.vue-dark-mode {
+  padding: 0px 0px;
+  font-size: 14px;
 }
 html body {
   margin: 0;
