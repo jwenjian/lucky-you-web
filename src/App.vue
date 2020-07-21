@@ -118,7 +118,7 @@ export default {
       donateDialogVisible: false,
       config: {
         common: {
-          isMultiTimesChosenAllowed: false
+          isMultiTimesChosenAllowed: true
         }
       }
     };
@@ -397,6 +397,8 @@ export default {
     loadConfig() {
       if (localStorage && localStorage.getItem("luckyYou.config")) {
         this.config = JSON.parse(localStorage.getItem("luckyYou.config"));
+      } else {
+        localStorage.setItem("luckyYou.config", JSON.stringify(this.config))
       }
     }
   },
