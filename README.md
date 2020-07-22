@@ -1,6 +1,6 @@
 # lucky-you-web
 
-This is the PWA version of [lucky-you](https://githug.com/jwenjian/lucky-you), a tiny, simple, beautiful app to do a lucky draw.
+This is the PWA version of [lucky-you](https://github.com/jwenjian/lucky-you), a tiny, simple, beautiful app to do a lucky draw.
 
 [![pas](https://img.shields.io/static/v1?&message=ProgressiveApp.Store&color=74b9ff&style=flat&label=Follow%20Lucky%20You%20at)](https://progressiveapp.store/pwa/Lucky-You)
 
