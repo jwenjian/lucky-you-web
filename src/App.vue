@@ -512,6 +512,7 @@ html body {
   margin: 0.5em auto;
   display: block;
   border: 2px #ec2d7a dashed;
+  object-fit: cover;
 }
 #the-img:hover {
   border: 2px #207f4c dashed;
